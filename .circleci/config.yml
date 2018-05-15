@@ -39,4 +39,7 @@ jobs:
       #     key: v1-dependencies--{{ checksum "build.sbt" }}
 
       # run tests!
-      - run: cat /dev/null | build/sbt -Phadoop-2.7 -Phive-thriftserver -Pyarn -Pkafka-0-8 -Phive test
+      - run:
+          name: hadoop-2.7-hive-yarn
+          command: cat /dev/null | build/sbt -Phadoop-2.7 -Phive-thriftserver -Pyarn -Phive test
+          no_output_timeout: 30m

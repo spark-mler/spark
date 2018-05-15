@@ -25,22 +25,8 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.sbt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      # - run: cat /dev/null | sbt test:compile
-
-      # - save_cache:
-      #     paths:
-      #       - ~/.m2
-      #     key: v1-dependencies--{{ checksum "build.sbt" }}
-
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: cat /dev/null | build/sbt -Phadoop-2.7 -Phive-thriftserver -Pyarn -Phive test
+          command: build/mvn -q -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
           no_output_timeout: 30m

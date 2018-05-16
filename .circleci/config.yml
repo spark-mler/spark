@@ -18,7 +18,6 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
       SBT_OPTS: -Xmx2g -XX:ReservedCodeCacheSize=512m
       TERM: dumb
 
@@ -28,5 +27,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: build/mvn -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
+          command: build/mvn -e -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
           no_output_timeout: 30m

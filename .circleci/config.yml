@@ -28,5 +28,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: build/mvn -q -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
+          command: build/mvn -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
           no_output_timeout: 30m

@@ -18,8 +18,8 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx2g -XX:ReservedCodeCacheSize=512m
-      SBT_OPTS: -Xmx2g -XX:ReservedCodeCacheSize=512m
+      MAVEN_OPTS: -Xmx3g -XX:ReservedCodeCacheSize=512m
+      SBT_OPTS: -Xmx3g -XX:ReservedCodeCacheSize=512m
       TERM: dumb
 
     steps:
@@ -28,5 +28,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: build/mvn package -Phive -Phive-thriftserver
+          command: mvn package -Phive -Phive-thriftserver
           no_output_timeout: 30m

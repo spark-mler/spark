@@ -24,6 +24,7 @@ import java.util.*;
 import java.math.BigInteger;
 import java.math.BigDecimal;
 
+import org.apache.spark.sql.Encoders;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
@@ -419,8 +420,8 @@ public class JavaDataFrameSuite {
   @Test
   public void testJsonRDDToDataFrame() {
     // This is a test for the deprecated API in SPARK-15615.
-    JavaRDD<String> rdd = jsc.parallelize(Arrays.asList("{\"a\": 2}"));
-    Dataset<Row> df = spark.read().json(rdd);
+    List<String> list = Arrays.asList("{\"a\": 2}");
+    Dataset<Row> df = spark.read().json(spark.createDataset(list, Encoders.STRING()));
     Assert.assertEquals(1L, df.count());
     Assert.assertEquals(2L, df.collectAsList().get(0).getLong(0));
   }

@@ -28,5 +28,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: build/sbt -Phadoop-2.6 -Pkubernetes -Phive-thriftserver -Pflume -Pkinesis-asl -Pyarn -Pkafka-0-8 -Phive -Pmesos "core/testOnly catalyst/testOnly sql/testOnly hive/testOnly"
+          command: build/sbt "core/testOnly"
           no_output_timeout: 30m

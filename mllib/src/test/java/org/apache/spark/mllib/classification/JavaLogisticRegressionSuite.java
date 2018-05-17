@@ -50,9 +50,9 @@ public class JavaLogisticRegressionSuite extends SharedSparkSession {
     List<LabeledPoint> validationData =
       LogisticRegressionSuite.generateLogisticInputAsList(A, B, nPoints, 17);
 
-    LogisticRegressionWithSGD lrImpl = new LogisticRegressionWithSGD();
+    LogisticRegressionWithLBFGS lrImpl = new LogisticRegressionWithLBFGS();
     lrImpl.setIntercept(true);
-    lrImpl.optimizer().setStepSize(1.0)
+    lrImpl.optimizer()
       .setRegParam(1.0)
       .setNumIterations(100);
     LogisticRegressionModel model = lrImpl.run(testRDD.rdd());

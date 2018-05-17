@@ -2074,7 +2074,7 @@
           <configuration>
             <scalaVersion>${scala.version}</scalaVersion>
             <recompileMode>incremental</recompileMode>
-            <useZincServer>false</useZincServer>
+            <useZincServer>true</useZincServer>
             <args>
               <arg>-unchecked</arg>
               <arg>-deprecation</arg>

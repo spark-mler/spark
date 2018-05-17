@@ -28,5 +28,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-hive-yarn
-          command: build/mvn -DskipTests -Pyarn -Phive -Phive-thriftserver install
+          command: build/sbt -Phadoop-2.6 -Pkubernetes -Phive-thriftserver -Pflume -Pkinesis-asl -Pyarn -Pkafka-0-8 -Phive -Pmesos test:package streaming-kafka-0-8-assembly/assembly streaming-flume-assembly/assembly streaming-kinesis-asl-assembly/assembly
           no_output_timeout: 30m

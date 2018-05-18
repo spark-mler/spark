@@ -536,7 +536,7 @@ class SparkSubmitSuite
     }
   }
 
-  test("includes jars passed through spark.jars.packages and spark.jars.repositories") {
+  ignore("includes jars passed through spark.jars.packages and spark.jars.repositories") {
     val unusedJar = TestUtils.createJarWithClasses(Seq.empty)
     val main = MavenCoordinate("my.great.lib", "mylib", "0.1")
     val dep = MavenCoordinate("my.great.dep", "mylib", "0.1")

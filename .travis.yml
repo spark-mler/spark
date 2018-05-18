@@ -42,6 +42,9 @@ notifications:
 
 # 5. Run maven install before running lint-java.
 install:
+  - free -m
+  - cat  /proc/sys/kernel/pid_max
+  - cat  /proc/sys/vm/overcommit_memory
   - export MAVEN_SKIP_RC=1
   - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
   # Output something every 10 minutes or Travis kills the job

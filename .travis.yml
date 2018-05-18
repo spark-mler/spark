@@ -45,7 +45,7 @@ install:
   - export MAVEN_SKIP_RC=1
   # Output something every 10 minutes or Travis kills the job
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 4 -q -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
+  - build/mvn -q -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
   # Killing background sleep loop
   - kill %1
 

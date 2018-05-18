@@ -31,6 +31,7 @@ jdk:
   - oraclejdk8
 
 before_install:
+  - sudo apt-get install sbt
   - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
 
 # 3. Setup cache directory for SBT and Maven.

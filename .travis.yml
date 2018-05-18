@@ -39,7 +39,7 @@ before_install:
   - export MAVEN_SKIP_RC=1
   # Output something every 10 minutes or Travis kills the job
   - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-  -   - build/mvn -T 4 -q -DskipTests -Pyarn -Phive -Phive-thriftserver install
+  - build/mvn -T 4 -q -DskipTests -Pyarn -Phive -Phive-thriftserver install
   # Killing background sleep loop
   - kill %1
 

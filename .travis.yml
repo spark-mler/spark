@@ -30,27 +30,44 @@ language: java
 jdk:
   - oraclejdk8
 
+before_install:
+  - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+
 # 3. Setup cache directory for SBT and Maven.
 cache:
   directories:
   - $HOME/.sbt
   - $HOME/.m2
 
+matrix:
+  fast_finish: true
+  include:
+    - jdk: oraclejdk8
+      language: java
+      env: NODE_ENV=test
+      install:
+        - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+        - export MAVEN_SKIP_RC=1
+        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 4 -DskipTests=true -q -Pyarn -Phive -Phive-thriftserver install
+        # Killing background sleep loop
+        - kill %1
+    - jdk: oraclejdk8
+      language: java
+      install:
+        - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+        - export MAVEN_SKIP_RC=1
+        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 4 -DskipTests=true -q -Pyarn -Phive -Phive-thriftserver install
+        # Killing background sleep loop
+        - kill %1
+
 # 4. Turn off notifications.
 notifications:
   email: false
 
-# 5. Run maven install before running lint-java.
-install:
-  - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
-  - export MAVEN_SKIP_RC=1
-  - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
-  # Output something every 10 minutes or Travis kills the job
-  - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 4 -q -Pyarn -Phive -Phive-thriftserver install
-  # Killing background sleep loop
-  - kill %1
 
-# 6. Run lint-java.
-script:
-  - dev/lint-java

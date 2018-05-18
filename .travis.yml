@@ -46,7 +46,6 @@ matrix:
       language: java
       env: NODE_ENV=test
       install:
-        - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
         - export MAVEN_SKIP_RC=1
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
@@ -57,7 +56,6 @@ matrix:
     - jdk: oraclejdk8
       language: java
       install:
-        - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
         - export MAVEN_SKIP_RC=1
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job

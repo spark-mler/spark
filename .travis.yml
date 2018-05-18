@@ -44,6 +44,7 @@ notifications:
 install:
   - free -m
   - echo 1048576 > /proc/sys/kernel/pid_max
+  - ulimit -a
   - export MAVEN_SKIP_RC=1
   - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
   # Output something every 10 minutes or Travis kills the job

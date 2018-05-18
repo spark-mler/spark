@@ -36,6 +36,12 @@ before_install:
   # - sudo apt-get update
   - sudo apt-get install sbt
   - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+  - export MAVEN_SKIP_RC=1
+  # Output something every 10 minutes or Travis kills the job
+  - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+  -   - build/mvn -T 4 -q -DskipTests -Pyarn -Phive -Phive-thriftserver install
+  # Killing background sleep loop
+  - kill %1
 
 # 3. Setup cache directory for SBT and Maven.
 cache:
@@ -54,7 +60,7 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/sbt "core/testOnly"
+        - build/mvn test -pl core
         # Killing background sleep loop
         - kill %1
     - jdk: oraclejdk8

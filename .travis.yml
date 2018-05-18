@@ -44,23 +44,60 @@ matrix:
   include:
     - jdk: oraclejdk8
       language: java
-      env: NODE_ENV=test
+      env: module=core
       install:
         - export MAVEN_SKIP_RC=1
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 4 -DskipTests=true -q -Pyarn -Phive -Phive-thriftserver install
+        - build/sbt "core/testOnly"
         # Killing background sleep loop
         - kill %1
     - jdk: oraclejdk8
       language: java
+      env: module=catalyst
       install:
         - export MAVEN_SKIP_RC=1
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 4 -DskipTests=true -q -Pyarn -Phive -Phive-thriftserver install
+        - build/sbt "catalyst/testOnly"
+        # Killing background sleep loop
+        - kill %1
+
+    - jdk: oraclejdk8
+      language: java
+      env: module=sql
+      install:
+        - export MAVEN_SKIP_RC=1
+        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/sbt "sql/testOnly"
+        # Killing background sleep loop
+        - kill %1
+
+    - jdk: oraclejdk8
+      language: java
+      env: module=hive
+      install:
+        - export MAVEN_SKIP_RC=1
+        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/sbt "hive/testOnly"
+        # Killing background sleep loop
+        - kill %1
+
+    - jdk: oraclejdk8
+      language: java
+      env: module=hive-thriftserver
+      install:
+        - export MAVEN_SKIP_RC=1
+        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/sbt "hive-thriftserver/testOnly"
         # Killing background sleep loop
         - kill %1
 

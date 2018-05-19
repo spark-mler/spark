@@ -45,70 +45,32 @@ cache:
 before_cache:
   - rm -rf $HOME/.m2/repository/org/apache/spark/
 
-install: true
+install:
+  # Output something every 10 minutes or Travis kills the job
+  - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
+  - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -Phive -pl core,sql/catalyst,sql/core,sql/hive -am install
+  # Killing background sleep loop
+  - kill %1
 
 matrix:
   fast_finish: true
   include:
     - jdk: oraclejdk8
-      env: module=core
-      install:
-        - export MAVEN_SKIP_RC=1
-        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
-        # Output something every 10 minutes or Travis kills the job
-        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl core -am install
-        # Killing background sleep loop
-        - kill %1
-      script:
-        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl core verify
-        - kill %1
+      env: module=" -pl core"
 
     - jdk: oraclejdk8
-      env: module=catalyst
-      install:
-        - export MAVEN_SKIP_RC=1
-        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
-        # Output something every 10 minutes or Travis kills the job
-        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/catalyst -am install
-        # Killing background sleep loop
-        - kill %1
-      script:
-        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl sql/catalyst verify
-        - kill %1
+      env: module="-pl sql/catalyst"
 
     - jdk: oraclejdk8
-      env: module=sql
-      install:
-        - export MAVEN_SKIP_RC=1
-        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
-        # Output something every 10 minutes or Travis kills the job
-        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/core -am install
-        # Killing background sleep loop
-        - kill %1
-      script:
-        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl sql/core verify
-        - kill %1
+      env: module="-pl sql/core"
 
     - jdk: oraclejdk8
-      env: module=hive
-      install:
-        - export MAVEN_SKIP_RC=1
-        - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
-        # Output something every 10 minutes or Travis kills the job
-        - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -Phive -pl sql/hive -am install
-        # Killing background sleep loop
-        - kill %1
-      script:
-        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast -Phive -pl sql/hive verify
-        - kill %1
+      env: module="-Phive -pl sql/hive"
+
+  script:
+    - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+    - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast ${module} verify env $EXTRA_TESTS
+    - kill %1
 # 4. Turn off notifications.
 notifications:
   email: false

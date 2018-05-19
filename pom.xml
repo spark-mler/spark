@@ -2156,6 +2156,7 @@
             <failIfNoTests>false</failIfNoTests>
             <excludedGroups>${test.exclude.tags}</excludedGroups>
             <parallel>classes</parallel>
+            <useUnlimitedThreads>true</useUnlimitedThreads>
           </configuration>
           <executions>
             <execution>

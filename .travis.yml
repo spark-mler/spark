@@ -57,7 +57,7 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl core -am clean install
+        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl core -am install
         # Killing background sleep loop
         - kill %1
       script:
@@ -72,7 +72,7 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/catalyst -am clean install
+        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/catalyst -am install
         # Killing background sleep loop
         - kill %1
       script:
@@ -87,7 +87,7 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/core -am clean install
+        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/core -am install
         # Killing background sleep loop
         - kill %1
       script:
@@ -102,7 +102,7 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -Phive -pl sql/hive -am clean install
+        - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -Phive -pl sql/hive -am install
         # Killing background sleep loop
         - kill %1
       script:

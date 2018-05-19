@@ -59,8 +59,8 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast $PROFILE -pl core -am clean install"
-        - build/mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast $PROFILE -pl core verify"
+        - build/mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl core -am clean install"
+        - build/mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl core verify"
         # Killing background sleep loop
         - kill %1
     - jdk: oraclejdk8

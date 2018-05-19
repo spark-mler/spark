@@ -118,7 +118,7 @@ public class SparkLauncherSuite extends BaseSuite {
     final Process app = launcher.launch();
 
     new OutputRedirector(app.getInputStream(), getClass().getName() + ".child", TF);
-    assertEquals(0, app.waitFor());
+    assertEquals(1, app.waitFor());
   }
 
   @Test

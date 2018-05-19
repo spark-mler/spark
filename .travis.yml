@@ -63,7 +63,7 @@ matrix:
 install:
   # Output something every 10 minutes or Travis kills the job
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 1.5C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast ${module} -am install
+  - build/mvn -T 1.5C -DskipTests -Dfast ${module} -am install
   # Killing background sleep loop
   - kill %1
 

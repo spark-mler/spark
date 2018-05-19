@@ -49,12 +49,6 @@ matrix:
   fast_finish: true
   include:
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl common/kvstore"
-
-    - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl common/network-common"
-
-    - jdk: oraclejdk8
       env: module="-Phadoop-2.7 -pl core"
 
     - jdk: oraclejdk8

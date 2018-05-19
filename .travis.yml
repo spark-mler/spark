@@ -52,6 +52,9 @@ matrix:
       env: module=" -pl common/kvstore"
 
     - jdk: oraclejdk8
+      env: module=" -pl network-common"
+
+    - jdk: oraclejdk8
       env: module=" -pl core"
 
     - jdk: oraclejdk8

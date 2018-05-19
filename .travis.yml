@@ -26,9 +26,14 @@ sudo: required
 dist: trusty
 
 # 2. Choose language and target JDKs for parallel builds.
-language: java
+language: scala
+scala:
+  - 2.11.8
 jdk:
   - oraclejdk8
+
+before_install:
+  - sudo fallocate -l 5G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
 
 # 3. Setup cache directory for SBT and Maven.
 cache:
@@ -36,15 +41,47 @@ cache:
   - $HOME/.sbt
   - $HOME/.m2
 
+# do not cache our own artifacts
+before_cache:
+  - rm -rf $HOME/.m2/repository/org/apache/spark/
+
+install:
+  - true
+
+jobs:
+  include:
+    - stage: install
+      script:
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -DskipTests -Dfast -Phadoop-2.7 -Phive -Phive-thriftserver install
+        # Killing background sleep loop
+        - kill %1
+    - stage: unit tests
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dfast -pl core verify
+        - kill %1
+    - stage: unit tests
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dfast -pl sql/catalyst verify
+        - kill %1
+    - stage: unit tests
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dfast -pl sql/core verify
+        - kill %1
+    - stage: unit tests
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dorg.apache.hadoop=error -Dtest='!*VersionsSuite,!*HiveClientSuites' -Dfast -pl sql/hive verify
+        - kill %1
+    - stage: show
+      script: echo finished
+
 # 4. Turn off notifications.
 notifications:
   email: false
 
-# 5. Run maven install before running lint-java.
-install:
-  - export MAVEN_SKIP_RC=1
-  - travis_wait 60 build/mvn -q -DskipTests -Pkubernetes -Pmesos -Pyarn -Pkinesis-asl -Phive -Phive-thriftserver install
 
-# 6. Run lint-java.
-script:
-  - dev/lint-java

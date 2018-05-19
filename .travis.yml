@@ -45,32 +45,36 @@ cache:
 before_cache:
   - rm -rf $HOME/.m2/repository/org/apache/spark/
 
-matrix:
-  fast_finish: true
+
+jobs:
   include:
-    - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl core"
+    - stage: install
+      script:
+        # Output something every 10 minutes or Travis kills the job
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -DskipTests -Dfast -Phadoop-2.7 -pl core,!common/kvstore,!common/network-common,sql/catalyst,sql/core,sql/hive -am install
+        # Killing background sleep loop
+        - kill %1
+    - stage: unit tests
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast -pl core verify
+        - kill %1
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast -pl sql/catalyst verify
+        - kill %1
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast -pl sql/core verify
+        - kill %1
+      script:
+        - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+        - build/mvn -T 1C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast -pl sql/hive verify
+        - kill %1
+    - stage: show
+      script: echo finished
 
-    - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl sql/catalyst"
-
-    - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl sql/core"
-
-    - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -Phive -pl sql/hive"
-
-install:
-  # Output something every 10 minutes or Travis kills the job
-  - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 1C -q -DskipTests -Dfast ${module},!common/kvstore,!common/network-common -am install
-  # Killing background sleep loop
-  - kill %1
-
-script:
-  - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 1C -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=error -Dfast ${module} verify
-  - kill %1
 # 4. Turn off notifications.
 notifications:
   email: false

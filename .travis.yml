@@ -43,11 +43,16 @@ cache:
   - $HOME/.sbt
   - $HOME/.m2
 
+# do not cache our own artifacts
+before_cache:
+  - rm -rf $HOME/.m2/repository/org/apache/spark/
+
+install: true
+
 matrix:
   fast_finish: true
   include:
     - jdk: oraclejdk8
-      language: java
       env: module=core
       install:
         - export MAVEN_SKIP_RC=1
@@ -58,7 +63,6 @@ matrix:
         # Killing background sleep loop
         - kill %1
     - jdk: oraclejdk8
-      language: java
       env: module=catalyst
       install:
         - export MAVEN_SKIP_RC=1
@@ -70,7 +74,6 @@ matrix:
         - kill %1
 
     - jdk: oraclejdk8
-      language: java
       env: module=sql
       install:
         - export MAVEN_SKIP_RC=1
@@ -82,7 +85,6 @@ matrix:
         - kill %1
 
     - jdk: oraclejdk8
-      language: java
       env: module=hive
       install:
         - export MAVEN_SKIP_RC=1

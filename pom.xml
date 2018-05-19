@@ -2155,6 +2155,7 @@
             </systemProperties>
             <failIfNoTests>false</failIfNoTests>
             <excludedGroups>${test.exclude.tags}</excludedGroups>
+            <parallel>classes</parallel>
           </configuration>
           <executions>
             <execution>

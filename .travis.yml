@@ -55,21 +55,21 @@ matrix:
       env: module="-Phadoop-2.7 -pl common/network-common"
 
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl core,common/kvstore,common/network-common"
+      env: module="-Phadoop-2.7 -pl core"
 
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl sql/catalyst,!common/kvstore,!common/network-common"
+      env: module="-Phadoop-2.7 -pl sql/catalyst"
 
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl sql/core,common/kvstore,common/network-common"
+      env: module="-Phadoop-2.7 -pl sql/core"
 
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -Phive -pl sql/hive,!common/kvstore,!common/network-common"
+      env: module="-Phadoop-2.7 -Phive -pl sql/hive"
 
 install:
   # Output something every 10 minutes or Travis kills the job
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 1C -DskipTests -Dfast ${module} -am install
+  - build/mvn -T 1C -DskipTests -Dfast ${module},!common/kvstore,!common/network-common -am install
   # Killing background sleep loop
   - kill %1
 

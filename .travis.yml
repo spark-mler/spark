@@ -52,7 +52,7 @@ matrix:
       env: module="-Phadoop-2.7 -pl common/kvstore"
 
     - jdk: oraclejdk8
-      env: module="-Phadoop-2.7 -pl network-common"
+      env: module="-Phadoop-2.7 -pl common/network-common"
 
     - jdk: oraclejdk8
       env: module="-Phadoop-2.7 -pl core"

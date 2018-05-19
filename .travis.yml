@@ -31,10 +31,6 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - curl -L -o sbt.deb http://dl.bintray.com/sbt/debian/sbt-0.13.16.deb
-  - sudo dpkg -i sbt.deb
-  # - sudo apt-get update
-  - sudo apt-get install sbt
   - sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
 
 # 3. Setup cache directory for SBT and Maven.
@@ -70,7 +66,8 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/sbt "catalyst/testOnly"
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/catalyst -am clean install
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl sql/catalyst verify
         # Killing background sleep loop
         - kill %1
 
@@ -81,7 +78,8 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/sbt "sql/testOnly"
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -pl sql/core -am clean install
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -pl sql/core verify
         # Killing background sleep loop
         - kill %1
 
@@ -92,7 +90,8 @@ matrix:
         - export MAVEN_OPTS="-Xmx3g -XX:ReservedCodeCacheSize=512m"
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do free -m; echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/sbt -Phive -Phive-thriftserver "hive/testOnly hive-thriftserver/testOnly"
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -DskipTests -Dfast -Phive -pl sql/hive -am clean install
+        - build/mvn -q -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dfast -Phive -pl sql/hive verify
         # Killing background sleep loop
         - kill %1
 

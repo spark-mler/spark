@@ -49,22 +49,22 @@ matrix:
   fast_finish: true
   include:
     - jdk: oraclejdk8
-      env: module=" -pl common/kvstore"
+      env: module="-Phadoop-2.7 -pl common/kvstore"
 
     - jdk: oraclejdk8
-      env: module=" -pl network-common"
+      env: module="-Phadoop-2.7 -pl network-common"
 
     - jdk: oraclejdk8
-      env: module=" -pl core"
+      env: module="-Phadoop-2.7 -pl core"
 
     - jdk: oraclejdk8
-      env: module="-pl sql/catalyst"
+      env: module="-Phadoop-2.7 -pl sql/catalyst"
 
     - jdk: oraclejdk8
-      env: module="-pl sql/core"
+      env: module="-Phadoop-2.7 -pl sql/core"
 
     - jdk: oraclejdk8
-      env: module="-Phive -pl sql/hive"
+      env: module="-Phadoop-2.7 -Phive -pl sql/hive"
 
 install:
   # Output something every 10 minutes or Travis kills the job

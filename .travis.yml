@@ -63,7 +63,7 @@ matrix:
 install:
   # Output something every 10 minutes or Travis kills the job
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - build/mvn -T 1C -DskipTests -Dfast ${module},!common/kvstore,!common/network-common -am install
+  - build/mvn -T 1C -q -DskipTests -Dfast ${module},!common/kvstore,!common/network-common -am install
   # Killing background sleep loop
   - kill %1
 

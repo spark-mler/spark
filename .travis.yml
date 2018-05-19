@@ -49,6 +49,9 @@ matrix:
   fast_finish: true
   include:
     - jdk: oraclejdk8
+      env: module=" -pl common/kvstore"
+
+    - jdk: oraclejdk8
       env: module=" -pl core"
 
     - jdk: oraclejdk8

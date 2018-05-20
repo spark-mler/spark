@@ -50,23 +50,23 @@ jobs:
       script:
         # Output something every 10 minutes or Travis kills the job
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -DskipTests -Dfast -Phadoop-2.7 -Phive install
+        - build/mvn -T 1C -q -DskipTests -Dfast -Phadoop-2.7 -Phive clean install
         # Killing background sleep loop
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl core verify
+        - build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 -pl core verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl sql/catalyst verify
+        - build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 -pl sql/catalyst verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.expressions.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.jdbc.*,org.apache.spark.sql.sources.*,org.apache.spark.sql.*Suite verify
+        - build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.expressions.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.jdbc.*,org.apache.spark.sql.sources.*,org.apache.spark.sql.*Suite verify
         - kill %1
     - stage: unit tests
       script:

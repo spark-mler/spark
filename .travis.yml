@@ -60,17 +60,17 @@ jobs:
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Dfast -pl core verify
+        - build/mvn -T 1C -Dfast -pl core verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Dfast -pl sql/catalyst verify
+        - build/mvn -T 1C -Dfast -pl sql/catalyst verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Dfast -pl sql/core verify
+        - build/mvn -T 1C -Dfast -pl sql/core verify
         - kill %1
     - stage: unit tests
       script:

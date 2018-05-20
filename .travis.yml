@@ -57,12 +57,12 @@ jobs:
       script:
         - du -h ~/.m2/repository
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -Dfast -Phadoop-2.7 -Dtest=\!org.apache.spark.launcher.SparkLauncherSuite -pl core verify
+        - build/mvn -T 1C -Dfast -Phadoop-2.7 -pl core verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -Dfast -Phadoop-2.7 -Dtest=\!org.apache.spark.sql.catalyst.expressions.codegen.BufferHolderSparkSubmitSuite -pl sql/catalyst verify
+        - build/mvn -T 1C -Dfast -Phadoop-2.7 -pl sql/catalyst verify
         - kill %1
     - stage: unit tests
       script:
@@ -72,7 +72,7 @@ jobs:
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Phadoop-2.7 -Dorg.apache.hadoop=error -Dtest=!org.apache.spark.sql.hive.client.VersionsSuite -Dfast -pl sql/hive verify
+        - build/mvn -T 1C -q -Phadoop-2.7 -Dtest.exclude.tags=org.apache.spark.tags.ExtendedHiveTest -Dfast -pl sql/hive verify
         - kill %1
     - stage: show
       script: echo finished

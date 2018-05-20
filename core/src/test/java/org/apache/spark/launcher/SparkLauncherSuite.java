@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
@@ -93,7 +94,7 @@ public class SparkLauncherSuite extends BaseSuite {
     assertEquals("python3.5", launcher.builder.conf.get(package$.MODULE$.PYSPARK_PYTHON().key()));
   }
 
-  @Test
+  @Ignore
   public void testChildProcLauncher() throws Exception {
     // This test is failed on Windows due to the failure of initiating executors
     // by the path length limitation. See SPARK-18718.

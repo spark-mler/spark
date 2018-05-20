@@ -33,7 +33,7 @@ class BufferHolderSparkSubmitSuite
     with BeforeAndAfterEach
     with ResetSystemProperties {
 
-  test("SPARK-22222: Buffer holder should be able to allocate memory larger than 1GB") {
+  ignore("SPARK-22222: Buffer holder should be able to allocate memory larger than 1GB") {
     val unusedJar = TestUtils.createJarWithClasses(Seq.empty)
 
     val argsForSparkSubmit = Seq(

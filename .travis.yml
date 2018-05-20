@@ -66,7 +66,7 @@ jobs:
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.expressions.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.jdbc.*,org.apache.spark.sql.sources.*,org.apache.spark.sql.*Suite verify
+        - build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.*Suite verify
         - kill %1
     - stage: unit tests
       script:

@@ -56,22 +56,22 @@ jobs:
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -Dfast -Phadoop-2.7 -pl core verify
+        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl core verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -Dfast -Phadoop-2.7 -pl sql/catalyst verify
+        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl sql/catalyst verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.expressions.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.jdbc.*,org.apache.spark.sql.sources.*,org.apache.spark.sql.*Suite verify
+        - build/mvn -T 1C -o -Dfast -Phadoop-2.7 -pl sql/core -Dsuites=org.apache.spark.sql.execution.*,org.apache.spark.sql.expressions.*,org.apache.spark.sql.internal.*,org.apache.spark.sql.jdbc.*,org.apache.spark.sql.sources.*,org.apache.spark.sql.*Suite verify
         - kill %1
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Phadoop-2.7 -pl sql/hive -Dtest.exclude.tags=org.apache.spark.tags.ExtendedHiveTest -Dsuites=org.apache.spark.sql.hive.execution.*,org.apache.spark.sql.hive.*Suite -Dfast verify
+        - build/mvn -T 1C -o -q -Phadoop-2.7 -pl sql/hive -Dtest.exclude.tags=org.apache.spark.tags.ExtendedHiveTest -Dsuites=org.apache.spark.sql.hive.execution.*,org.apache.spark.sql.hive.*Suite -Dfast verify
         - kill %1
     - stage: show
       script: echo finished

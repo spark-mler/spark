@@ -75,7 +75,7 @@ jobs:
     - stage: unit tests
       script:
         - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-        - build/mvn -T 1C -q -Dorg.apache.hadoop=error -Dtest='!*VersionsSuite,!*HiveClientSuites' -Dfast -pl sql/hive verify
+        - build/mvn -T 1C -q -Dorg.apache.hadoop=error -Dtest=\!*VersionsSuite,\!*HiveClientSuites -Dfast -pl sql/hive verify
         - kill %1
     - stage: show
       script: echo finished
@@ -83,5 +83,3 @@ jobs:
 # 4. Turn off notifications.
 notifications:
   email: false
-
-

@@ -22,6 +22,8 @@ jobs:
       SBT_OPTS: -Xmx3g -XX:ReservedCodeCacheSize=512m
       TERM: dumb
 
+    resource_class: large
+
     steps:
       - checkout
 

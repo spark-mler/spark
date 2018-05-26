@@ -26,9 +26,11 @@ jobs:
 
     steps:
       - checkout
-
+      - run:
+          name: make-swapfile
+          command: sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
       # run tests!
       - run:
           name: hadoop-2.7-core
-          command: build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 verify
+          command: build/mvn -T 1C -q -Dfast -Phadoop-2.7 verify
           no_output_timeout: 30m

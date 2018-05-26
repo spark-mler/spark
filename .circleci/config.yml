@@ -25,10 +25,10 @@ jobs:
     resource_class: large
 
     steps:
-      - checkout
       - run:
           name: make-swapfile
           command: sudo fallocate -l 6G swapfile && sudo chmod 600 swapfile && sudo mkswap swapfile && sudo swapon swapfile
+      - checkout
       # run tests!
       - run:
           name: hadoop-2.7-core

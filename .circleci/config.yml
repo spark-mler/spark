@@ -29,6 +29,6 @@ jobs:
 
       # run tests!
       - run:
-          name: hadoop-2.7-hive-yarn
-          command: mvn package -Phive -Phive-thriftserver
+          name: hadoop-2.7-core
+          command: build/mvn -T 1C -o -q -Dfast -Phadoop-2.7 verify
           no_output_timeout: 30m

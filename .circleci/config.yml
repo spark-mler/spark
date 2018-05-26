@@ -27,7 +27,7 @@ jobs:
     steps:
       - run:
           name: make-swapfile
-          command: sudo fallocate -l 6G swapfile && sudo chmod 600 swapfile && sudo mkswap swapfile && sudo swapon swapfile
+          command: sudo fallocate -l 2G swapfile && sudo chmod 600 swapfile && sudo mkswap swapfile && sudo swapon swapfile
       - checkout
       # run tests!
       - run:

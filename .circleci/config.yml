@@ -32,5 +32,5 @@ jobs:
       # run tests!
       - run:
           name: hadoop-2.7-core
-          command: build/mvn -T 1C -q -Dfast -Phadoop-2.7 verify
+          command: build/mvn -T 1C -q -Phadoop-2.7 verify
           no_output_timeout: 30m

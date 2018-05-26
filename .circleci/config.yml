@@ -28,7 +28,7 @@ jobs:
       - checkout
       - run:
           name: make-swapfile
-          command: sudo fallocate -l 6G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+          command: sudo fallocate -l 6G swapfile && sudo chmod 600 swapfile && sudo mkswap swapfile && sudo swapon swapfile
       # run tests!
       - run:
           name: hadoop-2.7-core

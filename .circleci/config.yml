@@ -18,8 +18,8 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3g -XX:ReservedCodeCacheSize=512m
-      SBT_OPTS: -Xmx3g -XX:ReservedCodeCacheSize=512m
+      MAVEN_OPTS: -Xmx2g -XX:ReservedCodeCacheSize=512m
+      SBT_OPTS: -Xmx2g -XX:ReservedCodeCacheSize=512m
       TERM: dumb
 
     resource_class: large
@@ -27,7 +27,7 @@ jobs:
     steps:
       - run:
           name: make-swapfile
-          command: sudo fallocate -l 2G swapfile && sudo chmod 600 swapfile && sudo mkswap swapfile && sudo swapon swapfile
+          command: free -m
       - checkout
       # run tests!
       - run:

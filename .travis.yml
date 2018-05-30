@@ -46,6 +46,7 @@ install:
 
 jobs:
   include:
+    - env: IMAGE=maven:3-jdk-8
     - stage: install
       script:
         # Output something every 10 minutes or Travis kills the job
